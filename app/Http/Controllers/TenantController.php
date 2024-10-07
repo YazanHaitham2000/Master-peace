@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class TenantController extends Controller
 {
+    public function contact() {
+        return view('tenants2.contact');
+    }
+
+    public function home() {
+        return view('tenants2.home');
+    }
+    
+    
     // Show all tenants with search and filter functionality
     public function index(Request $request)
     {

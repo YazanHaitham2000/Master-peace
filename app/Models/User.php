@@ -58,9 +58,10 @@ class User extends Authenticatable
     }
 
     // Define the many-to-many relationship with the Home model
+
     public function homes()
     {
-        return $this->belongsToMany(Home::class, 'home_user');
+        return $this->hasMany(Home::class);
     }
 
     // Define the relationship with the FavoriteHome model

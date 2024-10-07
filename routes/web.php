@@ -11,7 +11,9 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 
-
+// use App\Http\Controllers\PropertiesForSaleController2;
+// use App\Http\Controllers\PropertiesForRentController2;
+// use App\Http\Controllers\DashboardController2;
 
 
 Route::middleware(['auth'])->group(function () {
@@ -89,7 +91,6 @@ Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show')
 Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
 Route::get('/dashboard', [DashboardController::class, 'admin'])->middleware('auth', 'admin')->name('dashboard');
-Route::get('/dashboard2', [DashboardController::class, 'owner'])->middleware('auth', 'owner')->name('dashboard2');
 
 // Fallback route for authenticated users
 Route::get('/home', function () {
@@ -111,3 +112,42 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 });
+
+
+
+/////////////////////owner dashboard///////////////////////////
+use App\Http\Controllers\PropertiesForSaleController2;
+use App\Http\Controllers\PropertiesForRentController2;
+use App\Http\Controllers\DashboardController2;
+
+Route::middleware(['auth', 'owner'])->group(function () {
+    Route::get('/owners2/dashboard', [DashboardController2::class, 'show'])->name('owners2.dashboard');
+    
+    Route::resource('properties-for-sale1', PropertiesForSaleController2::class);
+    Route::resource('properties-for-rent1', PropertiesForRentController2::class);
+});
+
+
+// routes/web.php
+
+
+// Other routes...
+
+Route::get('/owners2/properties/create', [DashboardController2::class, 'create'])->name('properties.create');
+Route::post('/owners2/properties', [DashboardController2::class, 'store'])->name('properties.store');
+
+use App\Http\Controllers\PropertyController;
+
+// Existing routes...
+Route::resource('properties', PropertyController::class);
+
+
+
+///////////////////////////tenant2////////////////////////
+
+use App\Http\Controllers\HomeController;
+
+
+Route::get('/tenants2/home', [HomeController::class, 'home'])->name('tenants2.home');
+Route::get('/tenants2/contact', [TenantController::class, 'contact'])->name('tenants2.contact');
+Route::get('/tenants2/home', [TenantController::class, 'home'])->name('tenants2..home');

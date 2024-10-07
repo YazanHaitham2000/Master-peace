@@ -20,9 +20,9 @@ class Home extends Model
     }
 
     // Define the many-to-many relationship with the User model
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class, 'home_user');
+        return $this->belongsTo(User::class);
     }
 
     // Define the relationship with the Comment model

@@ -17,6 +17,7 @@ public function up()
         $table->string('url');
         $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
         $table->foreignId('home_id')->nullable()->constrained('homes')->onDelete('set null');
+        
         $table->timestamps();
     });
 }

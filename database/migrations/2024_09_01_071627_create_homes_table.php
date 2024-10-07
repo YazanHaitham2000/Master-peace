@@ -15,6 +15,8 @@ public function up()
     Schema::create('homes', function (Blueprint $table) {
         $table->id();
         $table->string('name');
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
         $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
         $table->timestamps();
     });
@@ -27,5 +29,6 @@ public function up()
     public function down(): void
     {
         Schema::dropIfExists('homes');
+        
     }
 };

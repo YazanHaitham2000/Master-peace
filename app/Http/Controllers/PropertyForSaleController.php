@@ -14,7 +14,7 @@ class PropertyForSaleController extends Controller
     // Display a listing of properties for sale.
     public function index()
     {
-        $homes = Home::where('category_id', 1)->get(); // Assuming category_id 1 is for sale
+        $homes = Home::where('category_id', 2)->get(); // Assuming category_id 1 is for sale
         return view('properties-for-sale.index', compact('homes'));
     }
 
@@ -38,6 +38,8 @@ class PropertyForSaleController extends Controller
         $home =  Home::create([
             'name' => $request->name,
             'category_id' => $request->category_id, // Use the category_id from the request
+            'user_id' => auth()->id(), // تأكد من أن المستخدم متصل
+
         ]);
              // Handle the uploaded images
              if ($request->hasFile('images')) {

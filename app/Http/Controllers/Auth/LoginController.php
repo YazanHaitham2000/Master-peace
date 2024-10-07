@@ -26,7 +26,7 @@ class LoginController extends Controller
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
             if ($user->role_id == 1) {
-                return redirect()->route('dashboard2');
+                return redirect()->route('owners2.dashboard');
             } elseif ($user->role_id == 3) {
                 return redirect()->route('dashboard');
             } else {

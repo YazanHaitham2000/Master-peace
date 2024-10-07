@@ -13,7 +13,7 @@ class PropertyForRentController extends Controller
     // Display a listing of properties for rent.
     public function index()
     {
-        $homes = Home::where('category_id', 2)->get(); // Assuming category_id 2 is for rent
+        $homes = Home::where('category_id', 1)->get(); // Assuming category_id 2 is for rent
         return view('properties-for-rent.index', compact('homes'));
     }
 
@@ -74,6 +74,8 @@ class PropertyForRentController extends Controller
         $home->update([
             'name' => $request->name,
             'category_id' => $request->category_id, // Use the category_id from the request
+            'user_id' => auth()->id(), // تأكد من أن المستخدم متصل
+
         ]);
 
         // Remove selected images

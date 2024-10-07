@@ -3,7 +3,7 @@
                   rel="stylesheet">
 <div class="container mt-4">
     <h1>Add New Property for Rent</h1>
-////
+
     <form action="{{ route('properties-for-rent.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">

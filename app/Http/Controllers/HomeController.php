@@ -10,9 +10,10 @@ class HomeController extends Controller
      * Display a listing of the resource.
      */
     
-    public function index()
+    public function home()
     {
-        //
+        return view('tenants2.home');
+
     }
 
     /**
