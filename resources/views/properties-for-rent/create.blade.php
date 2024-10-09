@@ -18,10 +18,15 @@
                 @endforeach
             </select>
         </div>
-        <div class="form-group mt-3">
-            <label for="images">Property Images</label>
-            <input type="file" name="images[]" id="images" class="form-control" multiple>
-        </div>
+        <form action="your_route" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="form-group mt-3">
+        <label for="images">Property Images</label>
+        <input type="file" name="images[]" id="images" class="form-control" multiple>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
         <button type="submit" class="btn btn-primary mt-3"><i class="fa-solid fa-floppy-disk" style="color: #74C0FC;"></i> Save</button>
     </form>
 </div>

@@ -20,6 +20,11 @@ class TenantController extends Controller
     // Show all tenants with search and filter functionality
     public function index(Request $request)
     {
+
+
+
+        
+
         $query = User::where('role_id', 2); // Assuming role_id 2 is for tenants
 
         if ($request->has('search')) {

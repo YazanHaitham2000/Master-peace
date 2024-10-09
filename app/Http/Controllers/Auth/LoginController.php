@@ -29,8 +29,8 @@ class LoginController extends Controller
                 return redirect()->route('owners2.dashboard');
             } elseif ($user->role_id == 3) {
                 return redirect()->route('dashboard');
-            } else {
-                return redirect()->route('home');
+            } elseif ($user->role_id == 2){
+                return redirect()->route('tenants2..home');
             }
         }
 

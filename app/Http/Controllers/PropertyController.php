@@ -8,6 +8,47 @@ use Illuminate\Support\Facades\Auth; // Add this line
 class PropertyController extends Controller
 {
 
+
+
+    public function search(Request $request)
+    {
+        // Capture the search parameters
+        $keyword = $request->input('keyword');
+        $category_id = $request->input('category_id');
+        $location = $request->input('location');
+    
+        // Build the query
+        $query = Property::query();
+    
+        if ($keyword) {
+            $query->where('property_name', 'LIKE', "%{$keyword}%");
+        }
+    
+        if ($category_id) {
+            $query->where('category_id', $category_id);
+        }
+    
+        if ($location) {
+            $query->where('location', $location);
+        }
+    
+        // Fetch the results
+        $properties = $query->get();
+    
+        // Return to the search results view with the filtered properties
+        return view('properties.search_results', compact('properties'));
+    }
+    
+// PropertyController.php
+public function index()
+{
+    $properties = Home::all(); // Fetch all properties from the home table
+    return view('tenants2.property-list', compact('properties')); // Pass the data to the view
+}
+
+
+
+
     public function create()
     {
         return view('owners2.create-property'); // Point to the new view

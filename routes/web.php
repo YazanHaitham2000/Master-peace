@@ -146,8 +146,18 @@ Route::resource('properties', PropertyController::class);
 ///////////////////////////tenant2////////////////////////
 
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\homedetailsController;
 
 Route::get('/tenants2/home', [HomeController::class, 'home'])->name('tenants2.home');
 Route::get('/tenants2/contact', [TenantController::class, 'contact'])->name('tenants2.contact');
 Route::get('/tenants2/home', [TenantController::class, 'home'])->name('tenants2..home');
+Route::get('/search', [App\Http\Controllers\PropertyController::class, 'search'])->name('searchProperties');
+// routes/web.php
+Route::get('/tenants2/properties', [PropertyController::class, 'index'])->name('tenants2.properties');
+
+Route::get('/home/{id}', [HomeController::class, 'show'])->name('home.details');
+Route::post('/home/{id}/book', [HomeController::class, 'bookAppointment'])->name('book.appointment');
+
+
+
+

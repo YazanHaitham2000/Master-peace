@@ -92,34 +92,40 @@
 <!-- Navbar Start -->
 <div class="container-fluid nav-bar bg-transparent">
     <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
+        <!-- Left Section: Logo -->
         <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center text-center">
             <div class="icon p-2 me-2">
                 <img class="img-fluid" src="{{ asset('img1/icon-deal.png') }}" alt="Icon" style="width: 30px; height: 30px;">
             </div>
             <h1 class="m-0 text-primary">Makaan</h1>
         </a>
+        
+        <!-- Collapse button for mobile view -->
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
+        
+        <!-- Navbar content -->
         <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto">
-                <a href="{{ route('tenants2..home') }}" class="nav-item nav-link {{ request()->is('tenants2..home') ? 'active' : '' }}"></a>
-                <a href="{{ url('/property-list') }}" class="nav-item nav-link {{ request()->is('property-list') ? 'active' : '' }}"></a>
-                <a href="{{ route('tenants2.contact') }}" class="nav-item nav-link {{ request()->is('contact') ? 'active' : '' }}"></a>
-                </div>
-
-         
-                <!-- If the user is logged in -->
-                <a href="#" class="btn px-3 d-none d-lg-flex">{{ Auth::user()->name }}</a>
-                <a href="{{ route('logout') }}" style="color:#00B98E !important" class="btn  px-3 d-none d-lg-flex" 
-                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                   Logout
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            
+            <!-- Right Section: Username and Logout button -->
+            <ul class="navbar-nav ms-auto">
+                @if(Auth::check())
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">{{ Auth::user()->name }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('logout') }}" style="color:#00B98E !important" class="nav-link" 
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                           Logout
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
+                @endif
+            </ul>
         </div>
     </nav>
 </div>
+
 <!-- Navbar End -->
