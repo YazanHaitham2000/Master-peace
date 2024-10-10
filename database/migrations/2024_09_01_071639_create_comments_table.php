@@ -15,8 +15,12 @@ public function up()
     Schema::create('comments', function (Blueprint $table) {
         $table->id();
         $table->text('content');
+        $table->integer('rating')->after('content'); // Add rating after content
+
         $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         $table->foreignId('home_id')->constrained('homes')->onDelete('cascade');
+        $table->tinyInteger('rating')->unsigned();  // Add this line for the rating (1-5)
+
         $table->timestamps();
     });
 }

@@ -161,3 +161,16 @@ Route::post('/home/{id}/book', [HomeController::class, 'bookAppointment'])->name
 
 
 
+use App\Http\Controllers\CommentController;
+
+// Route for storing comments
+Route::post('homes/{home}/comments', [CommentController::class, 'store'])->name('comments.store');
+
+
+
+use App\Http\Controllers\AppointmentController;
+
+Route::post('/book-appointment/{home}', [AppointmentController::class, 'book'])->name('book.appointment');
+Route::delete('/cancel-appointment/{home}', [AppointmentController::class, 'cancel'])->name('cancel.appointment');
+// Fetch booked times for a specific home
+Route::get('/homes/{home}/booked-times', [AppointmentController::class, 'getBookedTimes'])->name('booked.times');

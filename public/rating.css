@@ -1,0 +1,28 @@
+.rating {
+    direction: rtl;
+    display: inline-block;
+}
+
+.rating > input {
+    display: none;
+}
+
+.rating > label {
+    color: #ddd;
+    font-size: 30px;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.rating > input:checked ~ label,
+.rating > input:hover ~ label {
+    color: #f39c12;
+}
+
+.rating-display .fa-star {
+    color: #ddd;
+}
+
+.rating-display .fa-star.checked {
+    color: #f39c12;
+}

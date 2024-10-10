@@ -1,5 +1,12 @@
 @include('layouts.app4')
 
+
+
+<link href="{{ asset('rating.css') }}" rel="stylesheet">
+
+
+
+
 <!-- Property Details Page -->
 <div class="container-xxl py-5">
     <div class="container">
@@ -39,20 +46,20 @@
                 <p><strong>Rooms: </strong> {{ $home->rooms }}</p>
                 <p><strong>Bathrooms: </strong> {{ $home->bathrooms }}</p>
 
-                <!-- Booking Button -->
-                @if($home->is_booked)
-                <button class="btn btn-danger" disabled>Already Booked</button>
-                @else
-                <button class="btn btn-primary" id="bookAppointment">Book Appointment</button>
-                @endif
-            </div>
-        </div>
-    </div>
+<!-- Booking Button -->
+@if($home->is_booked)
+    <button class="btn btn-danger" id="cancelAppointment">Cancel Appointment</button>
+@else
+    <button class="btn btn-primary" id="bookAppointment">Book Appointment</button>
+@endif
+</div>
+</div>
+</div>
 </div>
 
 <!-- Appointment Popup Message -->
 <div id="appointmentModal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered"> <!-- Added modal-dialog-centered -->
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Set Your Appointment</h5>
@@ -78,7 +85,7 @@
 
 <!-- Success Popup Message -->
 <div id="bookingSuccess" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered"> <!-- Added modal-dialog-centered -->
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Appointment Booked</h5>
@@ -94,15 +101,107 @@
     </div>
 </div>
 
+<!-- Cancel Success Popup Message -->
+<div id="cancelSuccess" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Appointment Canceled</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Your appointment has been successfully canceled!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Comments Section -->
+<div class="container my-5">
+    <h2>Comments & Ratings</h2>
+
+    @if(Auth::check())
+    <!-- Comment Form for logged-in users -->
+    <form id="commentForm" action="{{ route('comments.store', $home->id) }}" method="POST">
+        @csrf
+        <div class="mb-3">
+            <label for="content" class="form-label">Your Comment</label>
+            <textarea name="content" id="content" class="form-control" rows="3" required></textarea>
+        </div>
+
+        <!-- Star Rating -->
+        <div class="mb-3">
+            <label class="form-label">Rate this Property:</label>
+            <div class="rating">
+                <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                <input type="radio" name="rating" value="1" id="1" required><label for="1">☆</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+    </form>
+    @else
+    <!-- Prompt to login -->
+    <p>Please <a href="{{ route('login') }}">log in</a> to leave a comment and rating.</p>
+    @endif
+
+    <!-- Display Comments -->
+    <div class="comments-list mt-5">
+        <h4>All Comments</h4>
+        @foreach($home->comments as $comment)
+        <div class="comment-item mb-4">
+            <strong>{{ $comment->user->name }}</strong>
+            <div class="rating-display">
+                @for($i = 1; $i <= 5; $i++)
+                <span class="fa fa-star {{ $i <= $comment->rating ? 'checked' : '' }}"></span>
+                @endfor
+            </div>
+            <p>{{ $comment->content }}</p>
+        </div>
+        @endforeach
+    </div>
+</div>
+
+
+
+
+
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Disable booked dates and times
+        fetch('{{ route("booked.times", $home->id) }}')
+            .then(response => response.json())
+            .then(data => {
+                let bookedDates = data.map(appointment => appointment.date);
+                let bookedTimes = data.map(appointment => appointment.time);
+                
+                // Disable already booked times
+                document.getElementById('appointmentDate').addEventListener('change', function() {
+                    if (bookedDates.includes(this.value)) {
+                        document.getElementById('appointmentTime').setAttribute('disabled', true);
+                        alert('This date is fully booked.');
+                    } else {
+                        document.getElementById('appointmentTime').removeAttribute('disabled');
+                    }
+                });
+            });
+    });
+
     document.getElementById('bookAppointment').addEventListener('click', function() {
         @if(Auth::check()) // Check if the user is logged in
-            // Show the appointment modal for logged-in users
             var appointmentModal = new bootstrap.Modal(document.getElementById('appointmentModal'));
             appointmentModal.show();
         @else
-            // Redirect to login page if the user is not logged in
             window.location.href = "{{ route('login') }}";
         @endif
     });
@@ -110,7 +209,7 @@
     document.getElementById('appointmentForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Get the selected date and time from the form
+        // Get the selected date and time
         var appointmentDate = document.getElementById('appointmentDate').value;
         var appointmentTime = document.getElementById('appointmentTime').value;
 
@@ -129,7 +228,6 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Hide the appointment modal and show the success message
                 var appointmentModal = bootstrap.Modal.getInstance(document.getElementById('appointmentModal'));
                 appointmentModal.hide();
 
@@ -139,6 +237,30 @@
                 document.getElementById('bookAppointment').classList.add('btn-danger');
                 document.getElementById('bookAppointment').disabled = true;
                 document.getElementById('bookAppointment').innerText = 'Already Booked';
+            }
+        });
+    });
+
+    // Handle appointment cancellation
+    document.getElementById('cancelAppointment').addEventListener('click', function() {
+        fetch('{{ route("cancel.appointment", $home->id) }}', {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                var cancelModal = new bootstrap.Modal(document.getElementById('cancelSuccess'));
+                cancelModal.show();
+
+                document.getElementById('cancelAppointment').classList.remove('btn-danger');
+                document.getElementById('cancelAppointment').classList.add('btn-primary');
+                document.getElementById('cancelAppointment').innerText = 'Book Appointment';
+                document.getElementById('cancelAppointment').setAttribute('id', 'bookAppointment');
+                document.getElementById('bookAppointment').disabled = false;
             }
         });
     });
