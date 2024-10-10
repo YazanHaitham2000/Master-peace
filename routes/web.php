@@ -181,3 +181,12 @@ use App\Http\Controllers\UserController3;
 Route::get('/tenants2/profile', [UserController3::class, 'profile'])->middleware('auth')->name('tenants2.profile');
 Route::post('/tenants2/profile', [UserController3::class, 'updateProfile'])->middleware('auth')->name('profile.update');
 Route::delete('/appointments/{id}/cancel', [UserController3::class, 'cancelAppointment'])->name('cancel.appointment');
+
+
+use App\Http\Controllers\ContactController;
+
+Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
+
+
+Route::get('/home', [TenantsController::class, 'index'])->name('tenants..home');
+

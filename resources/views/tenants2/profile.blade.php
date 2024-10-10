@@ -1,6 +1,6 @@
 @include('layouts.app4')
 
-
+<br>
 
 <div class="container">
     <h2>User Profile</h2>
@@ -40,7 +40,7 @@
 
     <hr>
 
-  <!-- User's Reservations -->
+<!-- User's Reservations -->
 <h3>Your Reservations</h3>
 
 @if($appointments->isEmpty())
@@ -50,6 +50,7 @@
         <thead>
             <tr>
                 <th>Home</th>
+                <th>Owner's Email</th> <!-- Added for Owner's Email -->
                 <th>Date</th>
                 <th>Time</th>
                 <th>Action</th> <!-- Added for Cancel button -->
@@ -59,6 +60,7 @@
             @foreach($appointments as $appointment)
             <tr>
                 <td>{{ $appointment->home->name }}</td>
+                <td>{{ $appointment->home->owner->email }}</td> <!-- Displaying owner's email -->
                 <td>{{ $appointment->date }}</td>
                 <td>{{ $appointment->time }}</td>
                 <td>

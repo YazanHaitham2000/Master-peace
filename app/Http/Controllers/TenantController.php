@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Contact; // Make sure this model is imported
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -13,18 +14,25 @@ class TenantController extends Controller
     }
 
     public function home() {
-        return view('tenants2.home');
+         // Fetch all contacts
+         $contacts = Contact::all();
+
+  
+
+ 
+         // Pass both contacts and tenants variables to the view
+         return view('tenants2.home', compact('contacts'));
+      
     }
     
     
     // Show all tenants with search and filter functionality
     public function index(Request $request)
     {
+        // Fetch all contacts
+        $contacts = Contact::all();
 
-
-
-        
-
+        // Fetch tenants based on role_id and search query
         $query = User::where('role_id', 2); // Assuming role_id 2 is for tenants
 
         if ($request->has('search')) {
@@ -33,7 +41,8 @@ class TenantController extends Controller
 
         $tenants = $query->get();
 
-        return view('tenants.index', compact('tenants'));
+        // Pass both contacts and tenants variables to the view
+        return view('tenants2..home', compact('contacts', 'tenants'));
     }
 
     // Show form to create a new tenant

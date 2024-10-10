@@ -7,6 +7,12 @@ use App\Models\Home;
 
 class HomeController extends Controller
 {
+
+
+
+
+
+    
     /**
      * Display a listing of the resource.
      */

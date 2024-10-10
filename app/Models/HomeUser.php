@@ -29,6 +29,10 @@ class HomeUser extends Model
         {
             return $this->hasMany(Appointment::class);
         }
-
+        public function owner()
+        {
+            return $this->belongsTo(User::class, 'user_id'); // user_id refers to the owner
+        }
+        
 
 }
