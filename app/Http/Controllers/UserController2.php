@@ -13,12 +13,13 @@ class UserController2 extends Controller
     {
         // Get the authenticated user
         $user = auth()->user();
-
-        // Fetch appointments associated with the user
-        $appointments = Appointment::with('home')->where('user_id', $user->id)->get();
-
+    
+        // Fetch appointments associated with the user, including the related home and user details
+        $appointments = Appointment::with(['home', 'user'])->where('user_id', $user->id)->get();
+    
         return view('owners2.profile', compact('user', 'appointments'));
     }
+    
 
     public function updateProfile(Request $request)
     {

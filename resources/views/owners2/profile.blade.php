@@ -35,32 +35,33 @@
         <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>
 <br>
-    <h3>Your Appointments</h3>
-    @if($appointments->isEmpty())
-        <p>No appointments found.</p>
-    @else
-        <table class="table">
-            <thead>
+<h3>Your Appointments</h3>
+@if($appointments->isEmpty())
+    <p>No appointments found.</p>
+@else
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Appointment With</th>
+                <th>Email</th>
+                <th>House</th>
+                <th>Date & Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($appointments as $appointment)
                 <tr>
-                    <th>Appointment With</th>
-                    <th>Email</th>
-                    <th>House</th>
-                    <th>Date & Time</th>
+                    <td>{{ $appointment->user->name ?? 'N/A' }}</td> <!-- Accessing the user's name -->
+                    <td>{{ $appointment->user->email ?? 'N/A' }}</td> <!-- Accessing the user's email -->
+                    <td>{{ $appointment->home->name ?? 'N/A' }}</td>
+                    <td>{{ \Carbon\Carbon::parse($appointment->date . ' ' . $appointment->time)->format('Y-m-d H:i') }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach($appointments as $appointment)
-                    <tr>
-                        <td>{{ $appointment->name }}</td>
-                        <td>{{ $appointment->email }}</td>
-                        <td>{{ $appointment->home->name ?? 'N/A' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($appointment->date_time)->format('Y-m-d H:i') }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
-</div>
+            @endforeach
+        </tbody>
+    </table>
+@endif
+
+
 
 
 

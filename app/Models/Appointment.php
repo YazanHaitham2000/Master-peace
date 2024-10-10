@@ -16,5 +16,8 @@ class Appointment extends Model
         return $this->belongsTo(Home::class);
     }
 
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
