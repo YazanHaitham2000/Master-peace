@@ -10,34 +10,12 @@ class PropertyController extends Controller
 
 
 
-    public function search(Request $request)
-    {
-        // Capture the search parameters
-        $keyword = $request->input('keyword');
-        $category_id = $request->input('category_id');
-        $location = $request->input('location');
+  
+
+
+
+
     
-        // Build the query
-        $query = Property::query();
-    
-        if ($keyword) {
-            $query->where('property_name', 'LIKE', "%{$keyword}%");
-        }
-    
-        if ($category_id) {
-            $query->where('category_id', $category_id);
-        }
-    
-        if ($location) {
-            $query->where('location', $location);
-        }
-    
-        // Fetch the results
-        $properties = $query->get();
-    
-        // Return to the search results view with the filtered properties
-        return view('properties.search_results', compact('properties'));
-    }
     
 // PropertyController.php
 public function index()
@@ -56,18 +34,32 @@ public function index()
 
     public function store(Request $request)
     {
-        // Validate the request data
+        // Validate the incoming request data
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|integer',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate multiple images
+            'price' => 'required|numeric',
+            'area' => 'required|integer',
+            'rooms' => 'required|integer',
+            'bathrooms' => 'required|integer',
+            'bedrooms' => 'required|integer',
+            'location' => 'required|string|max:255',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Validate multiple images
         ]);
     
         // Create a new property (Home model)
         $property = new Home();
         $property->name = $request->name;
         $property->category_id = $request->category_id;
+        $property->price = $request->price;
+        $property->area = $request->area;
+        $property->rooms = $request->rooms;
+        $property->bathrooms = $request->bathrooms;
+        $property->bedrooms = $request->bedrooms;
+        $property->location = $request->location;
         $property->user_id = Auth::id(); // Set the logged-in user as the owner
+    
+        // Save the property record
         $property->save();
     
         // Handle image uploads if images exist
@@ -96,19 +88,39 @@ public function index()
 
     public function update(Request $request, $id)
     {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|integer',
+            'price' => 'required|numeric',
+            'area' => 'required|integer',
+            'rooms' => 'required|integer',
+            'bathrooms' => 'required|integer',
+            'bedrooms' => 'required|integer',
+            'location' => 'required|string|max:255',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Validate multiple images
+        ]);
+    
         $property = Home::findOrFail($id);
-        $property->name = $request->name;
-        $property->category_id = $request->category_id;
-
+        $property->name = $validatedData['name'];
+        $property->category_id = $validatedData['category_id'];
+        $property->price = $validatedData['price'];
+        $property->area = $validatedData['area'];
+        $property->rooms = $validatedData['rooms'];
+        $property->bathrooms = $validatedData['bathrooms'];
+        $property->bedrooms = $validatedData['bedrooms'];
+        $property->location = $validatedData['location'];
+    
         // Handle image upload if new images are provided
         if ($request->hasFile('images')) {
-            // Code to upload images
+            // Code to upload images and associate them with the property
         }
-
+    
         $property->save();
-
+    
         return redirect()->route('owners2.dashboard')->with('success', 'Property updated successfully');
     }
+    
 
     public function destroy($id)
     {

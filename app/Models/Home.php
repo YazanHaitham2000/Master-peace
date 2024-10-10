@@ -9,11 +9,18 @@ class Home extends Model
 {
     use HasFactory , Notifiable;
       // Specify which attributes are mass assignable.
+ 
       protected $fillable = [
         'name',
+        'user_id',
         'category_id',
+        'price',
+        'area',
+        'rooms',
+        'bathrooms',
+        'bedrooms',    // Add this
+        'location',    // Add this
     ];
-
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -53,6 +60,9 @@ class Home extends Model
 {
     return $this->belongsTo(User::class, 'user_id'); // user_id refers to the owner
 }
+
+
+
 
 
 }

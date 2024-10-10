@@ -140,7 +140,9 @@ use App\Http\Controllers\PropertyController;
 
 // Existing routes...
 Route::resource('properties', PropertyController::class);
-
+use App\Http\Controllers\UserController2;
+Route::get('owners2/profile', [UserController2::class, 'profile'])->name('owners2.profile');
+Route::post('owners2/profile', [UserController2::class, 'updateProfile'])->name('owners2.profile.update');
 
 
 ///////////////////////////tenant2////////////////////////
@@ -151,7 +153,7 @@ use App\Http\Controllers\homedetailsController;
 Route::get('/tenants2/home', [HomeController::class, 'home'])->name('tenants2.home');
 Route::get('/tenants2/contact', [TenantController::class, 'contact'])->name('tenants2.contact');
 Route::get('/tenants2/home', [TenantController::class, 'home'])->name('tenants2..home');
-Route::get('/search', [App\Http\Controllers\PropertyController::class, 'search'])->name('searchProperties');
+Route::get('/properties/search', [PropertyController::class, 'searchProperties'])->name('searchProperties');
 // routes/web.php
 Route::get('/tenants2/properties', [PropertyController::class, 'index'])->name('tenants2.properties');
 
@@ -188,5 +190,7 @@ use App\Http\Controllers\ContactController;
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
 
 
-Route::get('/home', [TenantsController::class, 'index'])->name('tenants..home');
 
+
+
+Route::get('/home', [TenantController::class, 'home'])->name('tenants2.home');
