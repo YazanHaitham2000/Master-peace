@@ -174,3 +174,10 @@ Route::post('/book-appointment/{home}', [AppointmentController::class, 'book'])-
 Route::delete('/cancel-appointment/{home}', [AppointmentController::class, 'cancel'])->name('cancel.appointment');
 // Fetch booked times for a specific home
 Route::get('/homes/{home}/booked-times', [AppointmentController::class, 'getBookedTimes'])->name('booked.times');
+
+
+use App\Http\Controllers\UserController3;
+
+Route::get('/tenants2/profile', [UserController3::class, 'profile'])->middleware('auth')->name('tenants2.profile');
+Route::post('/tenants2/profile', [UserController3::class, 'updateProfile'])->middleware('auth')->name('profile.update');
+Route::delete('/appointments/{id}/cancel', [UserController3::class, 'cancelAppointment'])->name('cancel.appointment');

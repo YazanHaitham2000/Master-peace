@@ -24,4 +24,11 @@ class HomeUser extends Model
         {
             return $this->belongsTo(Home::class);
         }
+
+        public function appointments()
+        {
+            return $this->hasMany(Appointment::class);
+        }
+
+
 }

@@ -9,4 +9,12 @@ class Appointment extends Model
     use HasFactory;
 
     protected $fillable = ['home_id', 'user_id', 'date', 'time'];
+
+
+    public function home()
+    {
+        return $this->belongsTo(Home::class);
+    }
+
+
 }

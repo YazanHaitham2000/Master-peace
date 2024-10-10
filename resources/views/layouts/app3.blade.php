@@ -65,7 +65,7 @@
                 <a href="{{ route('register') }}" class="btn btn-primary px-3 d-none d-lg-flex">Register</a>
             @else
                 <!-- If the user is logged in -->
-                <a href="#" class="btn px-3 d-none d-lg-flex">{{ Auth::user()->name }}</a>
+                <a href="{{ route('tenants2.profile') }}" class="btn px-3 d-none d-lg-flex">{{ Auth::user()->name }}</a>
                 <a href="{{ route('logout') }}" style="color:#00B98E !important"  class="btnbtn-danger px-3 d-none d-lg-flex" 
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                    Logout
