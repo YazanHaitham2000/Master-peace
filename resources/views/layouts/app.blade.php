@@ -53,7 +53,6 @@
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
                 <a class="navbar-brand mx-4 mb-3">
-                    <h6 class="text-primary">Hello,{{ Auth::user()->name }}</h6>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">

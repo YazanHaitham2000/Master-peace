@@ -44,7 +44,7 @@
                 <i class="fa fa-users fa-3x text-primary"></i>
                 <div class="ms-3">
                     <p class="mb-2">Number of Tenants</p>
-                    <h6 class="mb-0">{{ $numberOfTenants }}</h6> <!-- Display number of tenants -->
+                    <h6 class="mb-0">{{ $numberOfTenants }}</h6> 
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
 
 
             <!-- Sales Chart Start -->
-            <div class="container-fluid pt-4 px-4">
+            <!-- <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light text-center rounded p-4">
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- Sales Chart End -->
 
 

@@ -29,26 +29,42 @@ class PropertyForRentController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id', // Validate category_id
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric',
+            'area' => 'required|numeric',
+            'rooms' => 'required|integer',
+            'bedrooms' => 'required|integer',
+            'bathrooms' => 'required|integer',
+            'location' => 'required|string|max:255',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        $home =    Home::create([
+    
+        // Create the property with the new fields
+        $home = Home::create([
             'name' => $request->name,
-            'category_id' => $request->category_id, // Use the category_id from the request
+            'category_id' => $request->category_id,
+            'price' => $request->price,
+            'area' => $request->area,
+            'rooms' => $request->rooms,
+            'bedrooms' => $request->bedrooms,
+            'bathrooms' => $request->bathrooms,
+            'location' => $request->location,
         ]);
-              // Handle the uploaded images
-              if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $path = $image->store('images', 'public');
-                    Image::create([
-                        'url' => $path,
-                        'home_id' => $home->id,
-                    ]);
-                }
+    
+        // Handle the uploaded images
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('images', 'public');
+                Image::create([
+                    'url' => $path,
+                    'home_id' => $home->id,
+                ]);
             }
-
+        }
+    
         return redirect()->route('properties-for-rent.index')->with('success', 'Property for rent created successfully.');
     }
+    
 
     // Show the form for editing a specific property for rent.
     public function edit($id)
@@ -65,19 +81,29 @@ class PropertyForRentController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id', // Validate category_id
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric',
+            'area' => 'required|numeric',
+            'rooms' => 'required|integer',
+            'bedrooms' => 'required|integer',
+            'bathrooms' => 'required|integer',
+            'location' => 'required|string|max:255',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-
         ]);
-
+    
         $home = Home::findOrFail($id);
         $home->update([
             'name' => $request->name,
-            'category_id' => $request->category_id, // Use the category_id from the request
-            'user_id' => auth()->id(), // تأكد من أن المستخدم متصل
-
+            'category_id' => $request->category_id,
+            'price' => $request->price,
+            'area' => $request->area,
+            'rooms' => $request->rooms,
+            'bedrooms' => $request->bedrooms,
+            'bathrooms' => $request->bathrooms,
+            'location' => $request->location,
+            'user_id' => auth()->id(),
         ]);
-
+    
         // Remove selected images
         if ($request->has('remove_images')) {
             $removeImages = $request->remove_images;
@@ -91,7 +117,7 @@ class PropertyForRentController extends Controller
                 }
             }
         }
-
+    
         // Handle new uploaded images
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -102,9 +128,10 @@ class PropertyForRentController extends Controller
                 ]);
             }
         }
-
+    
         return redirect()->route('properties-for-rent.index')->with('success', 'Property for rent updated successfully.');
     }
+    
 
     // Remove the specified property for rent from the database.
     public function destroy($id)

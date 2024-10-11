@@ -31,30 +31,42 @@ class PropertyForSaleController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id', // Validate category_id
+            'price' => 'required|numeric',
+            'area' => 'required|numeric',
+            'rooms' => 'required|integer',
+            'bedrooms' => 'required|integer',
+            'bathrooms' => 'required|integer',
+            'location' => 'required|string|max:255',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-      
         ]);
-
-        $home =  Home::create([
+    
+        // Create the new property with additional details
+        $home = Home::create([
             'name' => $request->name,
-            'category_id' => $request->category_id, // Use the category_id from the request
-            'user_id' => auth()->id(), // تأكد من أن المستخدم متصل
-
+            'category_id' => $request->category_id,
+            'price' => $request->price,
+            'area' => $request->area,
+            'rooms' => $request->rooms,
+            'bedrooms' => $request->bedrooms,
+            'bathrooms' => $request->bathrooms,
+            'location' => $request->location,
+            'user_id' => auth()->id(),
         ]);
-             // Handle the uploaded images
-             if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $image) {
-                    $path = $image->store('images', 'public');
-                    Image::create([
-                        'url' => $path,
-                        'home_id' => $home->id,
-                    ]);
-                }
+    
+        // Handle the uploaded images
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('images', 'public');
+                Image::create([
+                    'url' => $path,
+                    'home_id' => $home->id,
+                ]);
             }
-
+        }
+    
         return redirect()->route('properties-for-sale.index')->with('success', 'Property for sale created successfully.');
     }
-
+    
     // Show the form for editing a specific property for sale.
     public function edit($id)
     {
@@ -68,30 +80,41 @@ class PropertyForSaleController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id', // Validate category_id
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric',
+            'area' => 'required|numeric',
+            'rooms' => 'required|integer',
+            'bedrooms' => 'required|integer',
+            'bathrooms' => 'required|integer',
+            'location' => 'required|string|max:255',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-
         ]);
-
+    
+        // Find the existing home and update its data
         $home = Home::findOrFail($id);
         $home->update([
             'name' => $request->name,
-            'category_id' => $request->category_id, // Use the category_id from the request
+            'category_id' => $request->category_id,
+            'price' => $request->price,
+            'area' => $request->area,
+            'rooms' => $request->rooms,
+            'bedrooms' => $request->bedrooms,
+            'bathrooms' => $request->bathrooms,
+            'location' => $request->location,
         ]);
+    
         // Remove selected images
         if ($request->has('remove_images')) {
             $removeImages = $request->remove_images;
             foreach ($removeImages as $imageId) {
                 $image = Image::find($imageId);
                 if ($image) {
-                    // Delete the image file from storage
-                    \Storage::disk('public')->delete($image->url);
-                    // Delete the image record from the database
-                    $image->delete();
+                    \Storage::disk('public')->delete($image->url); // Delete image file from storage
+                    $image->delete(); // Remove image record from the database
                 }
             }
         }
-
+    
         // Handle new uploaded images
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
@@ -102,9 +125,10 @@ class PropertyForSaleController extends Controller
                 ]);
             }
         }
-
+    
         return redirect()->route('properties-for-sale.index')->with('success', 'Property for sale updated successfully.');
     }
+    
 
     // Remove the specified property for sale from the database.
     public function destroy($id)
