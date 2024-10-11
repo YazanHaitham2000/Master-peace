@@ -89,7 +89,7 @@
                             <tr class="text-dark">
                                 <th scope="col">owner_name</th>
                                 <th scope="col">home_name</th>
-                                <th scope="col">tenant_name</th>
+                                <!-- <th scope="col">tenant_name</th> -->
                                 <th scope="col">category_home</th>
                                 <th scope="col">comment</th>
                             </tr>
@@ -105,11 +105,11 @@
                                                 <td></td>
                                             @endif
                                             <td>{{ $home['home_name'] }}</td>
-                                            @if($item['role_id'] == 2) <!-- Assuming 2 is for tenant -->
+                                            <!-- @if($item['role_id'] == 2) 
                                                 <td>{{ $item['user_name'] }}</td>
                                             @else
                                                 <td></td>
-                                            @endif
+                                            @endif -->
                                             <td>{{ $home['category_home'] }}</td>
                                             <td>{{ $comment }}</td>
                                         </tr>

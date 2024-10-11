@@ -20,8 +20,8 @@ class DashboardController extends Controller
     public function admin ()
     {
         // Fetch counts of properties based on category_id
-        $propertiesForSaleCount = Home::where('category_id', 1)->count();
-        $propertiesForRentCount = Home::where('category_id', 2)->count();
+        $propertiesForSaleCount = Home::where('category_id', 2)->count();
+        $propertiesForRentCount = Home::where('category_id', 1)->count();
 
         // Fetch counts of users based on role_id
         $numberOfOwners = User::where('role_id', 1)->count();

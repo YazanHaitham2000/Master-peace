@@ -1,5 +1,10 @@
 @include('layouts.app2')
 
+
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+
 <br>
 
 <div class="container">
@@ -33,6 +38,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Update Profile</button>
+        <a href="{{ route('owners2.dashboard') }}" class="btn"><i class="fa-solid fa-backward" style="color:#00B98E !important"></i> Back</a>
+
     </form>
 <br>
 <h3>Your Appointments</h3>
