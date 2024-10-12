@@ -112,7 +112,7 @@
     <div id="tab-2" class="tab-pane fade p-0">
         <div class="row g-4">
             @foreach($properties as $property)
-                @if($property->category_id == 1) <!-- For Sale -->
+                @if($property->category_id == 2) <!-- For Sale -->
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="property-item rounded overflow-hidden">
                             <div class="position-relative overflow-hidden">
@@ -154,7 +154,7 @@
     <div id="tab-3" class="tab-pane fade p-0">
         <div class="row g-4">
             @foreach($properties as $property)
-                @if($property->category_id == 2) <!-- For Rent -->
+                @if($property->category_id == 1) <!-- For Rent -->
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="property-item rounded overflow-hidden">
                             <div class="position-relative overflow-hidden">

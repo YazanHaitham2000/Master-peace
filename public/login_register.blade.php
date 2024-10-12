@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Login & Register</title>
     <link rel="stylesheet" href="{{ asset('login_register.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         .error-message {
             color: red;
@@ -22,21 +24,73 @@
         }
         .alertError {
             font-size: 16px;
-            color: #721c24;
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 20px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            color: #721c24; /* Text color */
+            background-color: #f8d7da; /* Background color */
+            border: 1px solid #f5c6cb; /* Border color */
+            padding: 15px; /* Padding around the text */
+            border-radius: 5px; /* Rounded corners */
+            margin-top: 20px; /* Top margin */
+            max-width: 600px; /* Max width */
+            margin-left: auto; /* Center horizontally */
+            margin-right: auto; /* Center horizontally */
         }
     </style>
 </head>
 <body>
-  
+    @if (session('status'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Success!',
+                text: "{{ session('status') }}",
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
+    @endif
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+            @if (session('error'))
+            Swal.fire({
+                title: 'Error!',
+                text: "{{ session('error') }}",
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            @endif
+        });
+        // Swal.fire({
+        //     title: 'Error!',
+        //     text: "{{ session('error') }}",
+        //     icon: 'error',
+        //     confirmButtonText: 'OK'
+        // });
+        // Optional: Example usage to check email
+        function checkEmail(email) {
+            $.ajax({
+                url: '{{ route('checkEmail') }}', // Adjust to your route
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    email: email
+                },
+                success: function(response) {
+                    // Handling based on response if needed
+                }
+            });
+        }
+
+        // Optional: Event handler to check email
+        $('#registerEmail').on('blur', function() {
+            const email = $(this).val();
+            checkEmail(email);
+        });
+    </script>
+
     <div id="container" class="container">
+        <!-- FORM SECTION -->
         <div class="row">
             <!-- SIGN UP -->
             <div class="col align-items-center flex-col sign-up">
@@ -77,22 +131,21 @@
                             </div>
                         </div>
 
+                        <!-- Custom Role Selection -->
                         <div class="input-group">
-    <i class='bx bx-briefcase'></i>
-    <div class="role-selection">
-        <label>
-            <input type="radio" name="role_id" value="1" required>
-            <span>owner</span>
-        </label>
-        <label>
-            <input type="radio" name="role_id" value="2" required>
-            <span>tenant</span>
-        </label>
-     
-    </div>
-    <span id="errorRole" class="error-message"></span>
-</div>
-
+                            <i class='bx bx-briefcase'></i>
+                            <div class="role-selection">
+                                <label>
+                                    <input type="radio" name="role" value="lessor" required>
+                                    <span>Lessor</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="role" value="renter" required>
+                                    <span>Renter</span>
+                                </label>
+                            </div>
+                            <span id="errorRole" class="error-message"></span>
+                        </div>
 
                         <button type="submit">
                             Sign up
@@ -137,7 +190,6 @@
             <!-- END SIGN IN -->
         </div>
         <!-- END FORM SECTION -->
-
         <!-- CONTENT SECTION -->
         <div class="row content-row">
             <!-- SIGN IN CONTENT -->
@@ -159,52 +211,6 @@
         </div>
         <!-- END CONTENT SECTION -->
     </div>
-    @if (session('status'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Success!',
-                text: "{{ session('status') }}",
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
-        });
-    </script>
-    @endif
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            @if (session('error'))
-            Swal.fire({
-                title: 'Error!',
-                text: "{{ session('error') }}",
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-            @endif
-        });
-
-        // Optional: Example usage to check email
-        function checkEmail(email) {
-            $.ajax({
-                url: '{{ route('checkEmail') }}',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    email: email
-                },
-                success: function(response) {
-                    // Handling based on response if needed
-                }
-            });
-        }
-
-        // Optional: Event handler to check email
-        $('#registerEmail').on('blur', function() {
-            const email = $(this).val();
-            checkEmail(email);
-        });
-    </script>
 
     <script src="{{ asset('login_register.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
