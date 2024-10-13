@@ -68,7 +68,7 @@
                     <div class="bg-white border rounded p-4">
                         <p>{{ $contact->message }}</p> <!-- Displaying the message from the contact -->
                         <div class="d-flex align-items-center">
-                            <img class="img-fluid flex-shrink-0 rounded" src="{{ asset('img1/testimonial-1.jpg') }}" style="width: 45px; height: 45px;"> <!-- Placeholder image -->
+                            <img class="img-fluid flex-shrink-0 rounded" src="{{ asset('img1/testimonial-3.jpg') }}" style="width: 45px; height: 45px;"> <!-- Placeholder image -->
                             <div class="ps-3">
                                 <h6 class="fw-bold mb-1">{{ $contact->name }}</h6> <!-- Displaying the name of the client -->
                                 <small>{{ $contact->subject }}</small> <!-- Displaying the subject -->
