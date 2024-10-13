@@ -68,8 +68,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Validate role selection
-        const roleInputs = document.querySelectorAll('input[name="role"]');
-        const errorRole = document.getElementById("errorRole");
+        const roleInputs = document.querySelectorAll('input[name="role_id"]');
+        const errorRole = document.getElementById("error role_id");
         let roleSelected = false;
         roleInputs.forEach(function (input) {
             if (input.checked) {
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Validate lessor fields if 'lessor' role is selected
-        if (document.querySelector('input[name="role"]:checked')?.value === "lessor") {
+        if (document.querySelector('input[name="role_id"]:checked')?.value === "2") {
             const registerAddress = document.getElementById("registerAddress");
             const errorAddress = document.getElementById("errorAddress");
             const registerPhone = document.getElementById("registerPhone");

@@ -153,7 +153,7 @@ use App\Http\Controllers\homedetailsController;
 Route::get('/tenants2/home', [HomeController::class, 'home'])->name('tenants2.home');
 Route::get('/tenants2/contact', [TenantController::class, 'contact'])->name('tenants2.contact');
 Route::get('/tenants2/home', [TenantController::class, 'home'])->name('tenants2..home');
-Route::get('/properties/search', [PropertyController::class, 'searchProperties'])->name('searchProperties');
+
 // routes/web.php
 Route::get('/tenants2/properties', [PropertyController::class, 'index'])->name('tenants2.properties');
 
@@ -196,7 +196,7 @@ Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.st
 Route::get('/home', [TenantController::class, 'home'])->name('tenants2.home');
 
 
-
+//////////////////login////////////////////////
 
 
 

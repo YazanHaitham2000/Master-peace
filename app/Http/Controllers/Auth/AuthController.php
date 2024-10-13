@@ -60,7 +60,22 @@ class AuthController extends Controller
     }
     public function logout(Request $request)
     {
+        // Get the authenticated user's role
+        $role_id = Auth::user()->role_id;
+    
         Auth::logout(); // Log the user out
-        return redirect()->route('login'); // Redirect to the login page
+    
+        // Redirect based on role_id
+        if ($role_id == 1) { // Owner
+            return redirect()->route('login'); // Redirect to the login page
+        } elseif ($role_id == 2) { // Tenant
+            return redirect()->to('tenants2/home'); // Redirect to tenants2 home page
+        } elseif ($role_id == 3) { // Admin
+            return redirect()->route('login'); // Redirect to the login page
+        }
+    
+        // Default fallback redirect
+        return redirect()->route('login');
     }
+    
 }

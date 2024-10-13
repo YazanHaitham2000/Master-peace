@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 use App\Models\Home;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; // Add this line
+use App\Models\Property; // <-- Make sure to import the Property model
 
 class PropertyController extends Controller
 {
 
 
+   
 
   
 
