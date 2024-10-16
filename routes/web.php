@@ -214,3 +214,9 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('check-email', [AuthController::class, 'checkEmail'])->name('checkEmail');
 // Logout route
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+
+
+
+
+

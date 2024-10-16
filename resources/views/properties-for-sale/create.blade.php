@@ -22,6 +22,15 @@
     </div>
 
     <div class="form-group mt-3">
+        <label for="user_id">Owner</label>
+        <select name="user_id" id="user_id" class="form-control" required>
+            @foreach ($users as $user)
+                <option value="{{ $user->id }}">{{ $user->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="form-group mt-3">
         <label for="price">Price</label>
         <input type="number" name="price" id="price" class="form-control" required>
     </div>
@@ -60,6 +69,18 @@
         <i class="fa-solid fa-floppy-disk" style="color: #74C0FC;"></i> Save
     </button>
 </form>
+
+<!-- Add error validation display if required -->
+@if ($errors->any())
+    <div class="alert alert-danger mt-3">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 
 </div>
 

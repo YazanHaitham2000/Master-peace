@@ -7,22 +7,33 @@ use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Home;
 use App\Models\Category; // Ensure you import the Category model
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PropertyForSaleController extends Controller
 {
     // Display a listing of properties for sale.
-    public function index()
+    public function index(Request $request)
     {
-        $homes = Home::where('category_id', 2)->get(); // Assuming category_id 1 is for sale
-        return view('properties-for-sale.index', compact('homes'));
+        $homes = Home::where('category_id', 2)->get(); // Assuming category_id 2 is for sale
+        $query = Home::where('category_id', 2); // Assuming category_id 2 is for sale properties
+
+        $search = $request->input('search'); // Get search input
+    
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $search . '%'); // Search by property name
+        }
+    
+        $homes = $query->get();
+        return view('properties-for-sale.index', compact('homes','search'));
     }
 
     // Show the form for creating a new property for sale.
     public function create()
     {
         $categories = Category::all(); // Fetch all categories
-        return view('properties-for-sale.create', compact('categories'));
+        $users = User::all();
+        return view('properties-for-sale.create', compact('users','categories'));
     }
 
     // Store a newly created property for sale in the database.
@@ -31,6 +42,8 @@ class PropertyForSaleController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id', // Validate category_id
+            'user_id' => 'required|exists:users,id', // Validate user_id
+
             'price' => 'required|numeric',
             'area' => 'required|numeric',
             'rooms' => 'required|integer',
@@ -44,6 +57,8 @@ class PropertyForSaleController extends Controller
         $home = Home::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
+            'user_id' => $request->user_id, // Save the selected owner
+
             'price' => $request->price,
             'area' => $request->area,
             'rooms' => $request->rooms,

@@ -20,6 +20,16 @@
         </select>
     </div>
 
+    <!-- Add the dropdown for the owner (user) -->
+    <div class="form-group mt-3">
+        <label for="user_id">Owner</label>
+        <select name="user_id" id="user_id" class="form-control" required>
+            @foreach ($users as $user)
+                <option value="{{ $user->id }}">{{ $user->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
     <div class="form-group mt-3">
         <label for="price">Price</label>
         <input type="number" name="price" id="price" class="form-control" required>
@@ -59,6 +69,7 @@
         <i class="fa-solid fa-floppy-disk" style="color: #74C0FC;"></i> Save
     </button>
 </form>
+
 
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

@@ -28,4 +28,13 @@ class ContactController extends Controller
         // Redirect with a success message
         return redirect()->back()->with('success', 'Your message has been sent successfully.');
     }
+
+
+
+
+
+
+    
+
+
 }

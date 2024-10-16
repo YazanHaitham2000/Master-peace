@@ -6,7 +6,32 @@
 
 <div class="container mt-4">
     <h3>Manage Tenants</h3>
-    <a href="{{ route('tenants.create') }}" class="btn"><i class="fa-solid fa-plus" style="color: #74C0FC;"></i> Add New Tenant</a>
+    <div class="row">
+    <div class="col-md-6">
+        <!-- Search form aligned to the left -->
+        <form action="{{ route('tenants.index') }}" method="GET" class="d-flex">
+            <input 
+                type="text" 
+                name="search" 
+                class="form-control" 
+                placeholder="Search by name" 
+                value="{{ request()->get('search') }}" 
+                aria-label="Search">
+            <button type="submit" class="btn ms-2"><i class="fa-solid fa-magnifying-glass" style="color: #329fc3;"></i></button>
+        </form>
+    </div>
+    
+    <div class="col-md-6">
+        <!-- Add New Owner button aligned to the right -->
+        <div class="d-flex justify-content-end">
+            <a href="{{ route('tenants.create') }}" class="btn">
+                <i class="fa-solid fa-plus" style="color: #74C0FC;"></i> Add New Tenants
+            </a>
+        </div>
+    </div>
+</div>
+
+
     <table class="table table-bordered mt-3">
         <thead>
             <tr>

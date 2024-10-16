@@ -9,17 +9,20 @@ class OwnerController extends Controller
 {
     // Show all owners with search and filter functionality
     public function index(Request $request)
-    {
-        $query = User::where('role_id', 1); // Assuming role_id 1 is for owners
+{
+    $query = User::where('role_id', 1); // Assuming role_id 1 is for owners
 
-        if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
+    $search = $request->input('search'); // Get search input
 
-        $owners = $query->get();
-
-        return view('owners.index', compact('owners'));
+    if ($request->has('search')) {
+        $query->where('name', 'like', '%' . $search . '%');
     }
+
+    $owners = $query->get();
+
+    return view('owners.index', compact('owners', 'search'));
+}
+
 
     // Show form to create a new owner
     public function create()

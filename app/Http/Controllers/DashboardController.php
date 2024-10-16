@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\HomeUser;
 use App\Models\Comment;
+use App\Models\Contact;
 
 
 class DashboardController extends Controller
@@ -17,6 +18,10 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+   
+
+
     public function admin ()
     {
         // Fetch counts of properties based on category_id
@@ -55,6 +60,7 @@ class DashboardController extends Controller
                 'role_id' => $user->role_id,
             ];
         });
+        // Fetch the latest 5 messages from the contacts table
 
         return view('dashboard', compact(
             'propertiesForSaleCount',

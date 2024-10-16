@@ -33,13 +33,18 @@ class TenantController extends Controller
 
         $query = User::where('role_id', 2); // Assuming role_id 2 is for tenants
 
+        $search = $request->input('search'); // Get search input
+
+
         if ($request->has('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
         $tenants = $query->get();
 
-        return view('tenants.index', compact('tenants'));
+        $owners = $query->get();
+
+        return view('tenants.index', compact('tenants', 'search'));
     }
 
     // Show form to create a new tenant
