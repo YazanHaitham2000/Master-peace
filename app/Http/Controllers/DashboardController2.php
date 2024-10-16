@@ -8,20 +8,27 @@ use App\Models\Home; // Assuming your Property model is named Property
 
 class DashboardController2 extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
         // Get the logged-in user
         $userId = Auth::id(); // Get the ID of the logged-in user
-    
+        // Check if a search term exists
+    $search = $request->input('search');
         // Fetch properties for sale and rent for the logged-in user
         $propertiesForSale = Home::with('images')
             ->where('user_id', $userId) // Ensure you have a user_id column in your homes table
             ->where('category_id', 2) // Category ID for sale
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'LIKE', "%{$search}%");
+            })
             ->get();
     
         $propertiesForRent = Home::with('images')
             ->where('user_id', $userId) // Ensure you have a user_id column in your homes table
             ->where('category_id', 1) // Category ID for rent
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'LIKE', "%{$search}%");
+            })
             ->get();
     
         // Merge both collections
@@ -29,7 +36,8 @@ class DashboardController2 extends Controller
     
         // Pass the merged properties to the view
         return view('owners2.dashboard', [
-            'properties' => $properties
+            'properties' => $properties,
+            'search' => $search
         ]);
     }
     

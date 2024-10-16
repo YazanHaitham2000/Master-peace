@@ -14,7 +14,20 @@
     <h1><br></h1>
 
     <!-- Add new property button -->
-    <a href="{{ route('properties.create') }}" class="btn "><i class="fa-solid fa-plus" style="color:#00B98E !important" ></i> Add New Property</a>
+    <div class="d-flex justify-content-between mb-4">
+    <!-- Search bar on the left -->
+    <form action="{{ route('dashboard.search') }}" method="GET" class="d-flex">
+        <input type="text" name="search" class="form-control" placeholder="Property Name" value="{{ request('search') }}">
+        <button type="submit" class="btn  ms-2"><i class="fa-solid fa-magnifying-glass" style="color: #5ae2b5;"></i></button>
+    </form>
+
+    <!-- Add New Property button on the right -->
+    <a href="{{ route('properties.create') }}" class="btn ">
+        <i class="fa-solid fa-plus" style="color: #00B98E !important"></i> Add New Property
+    </a>
+</div>
+
+
 
     <h3>All Properties</h3>
     <div class="row">

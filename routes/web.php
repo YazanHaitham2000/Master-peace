@@ -122,7 +122,8 @@ use App\Http\Controllers\DashboardController2;
 
 Route::middleware(['auth', 'owner'])->group(function () {
     Route::get('/owners2/dashboard', [DashboardController2::class, 'show'])->name('owners2.dashboard');
-    
+    Route::get('/dashboard/search', [DashboardController2::class, 'show'])->name('dashboard.search');
+
     Route::resource('properties-for-sale1', PropertiesForSaleController2::class);
     Route::resource('properties-for-rent1', PropertiesForRentController2::class);
 });
