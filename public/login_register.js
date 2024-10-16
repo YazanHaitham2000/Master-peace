@@ -82,11 +82,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Validate lessor fields if 'lessor' role is selected
-        if (document.querySelector('input[name="role_id"]:checked')?.value === "2") {
+        const roleId = document.querySelector('input[name="role_id"]:checked')?.value;
+
+        if (roleId === "1" || roleId === "2") {
             const registerAddress = document.getElementById("registerAddress");
             const errorAddress = document.getElementById("errorAddress");
             const registerPhone = document.getElementById("registerPhone");
             const errorPhone = document.getElementById("errorPhone");
+        
+            let isValid = true; // A flag to track validation status
 
             // Validate address
             if (registerAddress.value.trim() === "") {
