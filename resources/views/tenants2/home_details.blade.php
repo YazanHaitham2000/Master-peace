@@ -154,11 +154,14 @@
     <p>Please <a href="{{ route('login') }}">log in</a> to leave a comment and rating.</p>
     @endif
 
-    <!-- Display Comments -->
-    <div class="comments-list mt-5">
-        <h4>All Comments</h4>
-        @foreach($home->comments as $comment)
-        <div class="comment-item mb-4">
+<!-- Display Comments -->
+<div class="comments-list mt-5">
+    <h4>All Comments</h4>
+    
+    <!-- Container for comments with scroll -->
+    <div style="max-height: 300px; overflow-y: auto;">
+        @foreach($home->comments as $index => $comment)
+        <div class="comment-item mb-4" style="{{ $index >= 4 ? 'display: block;' : '' }}"> <!-- Display all comments but limit scroll -->
             <strong>{{ $comment->user->name }}</strong>
             <div class="rating-display">
                 @for($i = 1; $i <= 5; $i++)

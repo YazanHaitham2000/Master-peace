@@ -3,6 +3,52 @@
 
 
 
+<!-- Search Start -->
+<div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+    <div class="container">
+        <form action="{{ route('properties.index') }}" method="GET"> <!-- Search Form -->
+            <div class="row g-3">
+                <!-- Search Input Section -->
+                <div class="col-md-10">
+                    <div class="row g-3">
+                        <!-- Keyword Input -->
+                        <div class="col-md-6">
+                            <input type="text" name="keyword" class="form-control border-0 py-3" placeholder="Search by Keyword" aria-label="Search by Keyword">
+                        </div>
+                        
+                        <!-- Location Dropdown -->
+                        <div class="col-md-6">
+                            <select name="location" class="form-select border-0 py-3" style="height: auto;" aria-label="Select Location">
+                                <option value="" selected>Select City</option>
+                                <option value="Amman">Amman</option>
+                                <option value="Zarqa">Zarqa</option>
+                                <option value="Irbid">Irbid</option>
+                                <option value="Aqaba">Aqaba</option>
+                                <option value="Jerash">Jerash</option>
+                                <option value="Madaba">Madaba</option>
+                                <option value="Salt">Salt</option>
+                                <option value="Ajloun">Ajloun</option>
+                                <option value="Mafraq">Mafraq</option>
+                                <option value="Karak">Karak</option>
+                                <option value="Tafilah">Tafilah</option>
+                                <option value="Ma'an">Ma'an</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Button -->
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-dark w-100 py-3">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
 
 
 

@@ -20,11 +20,28 @@ class PropertyController extends Controller
     
     
 // PropertyController.php
-public function index()
+public function index(Request $request)
 {
-    $properties = Home::all(); // Fetch all properties from the home table
-    return view('tenants2.property-list', compact('properties')); // Pass the data to the view
+    // Initialize the query to fetch all properties
+    $query = Home::query();
+
+    // If a keyword is provided, filter by property name
+    if ($request->has('keyword') && $request->keyword != '') {
+        $query->where('name', 'like', '%' . $request->keyword . '%');
+    }
+
+    // If a location is selected, filter by location
+    if ($request->has('location') && $request->location != '') {
+        $query->where('location', $request->location);
+    }
+
+    // Get the filtered properties or all if no filters are applied
+    $properties = $query->get();
+
+    // Pass the data to the view
+    return view('tenants2.property-list', compact('properties'));
 }
+
 
 
 

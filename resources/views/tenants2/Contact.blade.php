@@ -45,7 +45,7 @@
                     </div>
                     <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                         <iframe class="position-relative rounded w-100 h-100"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21407.539169362917!2d35.824003978919094!3d31.941728705422868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151ca47457c5585f%3A0x9ba111d416126471!2z2KfZhNio2YrYp9iv2LHYjCDYudmF2ZHYp9mG!5e1!3m2!1sar!2sjo!4v1729083073987!5m2!1sar!2sjo"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2674.4607610234825!2d35.91658092555207!3d31.992576523662656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151c9ffe0c803391%3A0xfc0d2cf01c28e1bf!2z2YXZg9iq2Kgg2LnZgtin2LHYp9iqINi52YTZiSDYp9mE2K7YsdmK2LfYqQ!5e1!3m2!1sar!2sjo!4v1729332247994!5m2!1sar!2sjo"
                             frameborder="0" style="min-height: 400px; border:0;" allowfullscreen="" aria-hidden="false"
                             tabindex="0"></iframe>
                     </div>
