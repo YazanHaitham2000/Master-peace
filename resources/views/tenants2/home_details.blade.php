@@ -4,8 +4,21 @@
 
 <link href="{{ asset('rating.css') }}" rel="stylesheet">
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+<style>
+#appointmentForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+#appointmentDate, #appointmentTime {
+    width: 50%; /* Set the width of the inputs */
+    margin-bottom: 20px; /* Space between date and time inputs */
+}
+</style>
 
 <!-- Property Details Page -->
 <div class="container-xxl py-5">
@@ -60,21 +73,22 @@
 <!-- Appointment Popup Message -->
 <div id="appointmentModal" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content text-center"> <!-- Added 'text-center' for centering -->
             <div class="modal-header">
                 <h5 class="modal-title">Set Your Appointment</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <p>Choose your preferred date and time for the appointment.</p>
+
                 <form id="appointmentForm">
-                    <div class="mb-3">
+                    <div class="mb-3 d-flex justify-content-center">
                         <label for="appointmentDate" class="form-label">Appointment Date:</label>
-                        <input type="date" class="form-control" id="appointmentDate" required>
+                        <input type="text" class="form-control w-50" id="appointmentDate" required> <!-- Center with 'w-50' -->
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 d-flex justify-content-center">
                         <label for="appointmentTime" class="form-label">Appointment Time:</label>
-                        <input type="time" class="form-control" id="appointmentTime" required>
+                        <input type="time" class="form-control w-50" id="appointmentTime" required disabled>
                     </div>
                     <button type="submit" class="btn btn-primary">Set Appointment</button>
                 </form>
@@ -82,6 +96,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Success Popup Message -->
 <div id="bookingSuccess" class="modal fade" tabindex="-1">
@@ -181,20 +196,44 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Disable booked dates and times
+        const appointmentDateInput = document.getElementById('appointmentDate');
+        const appointmentTimeInput = document.getElementById('appointmentTime');
+
+        // Fetch reserved dates and times from the backend
         fetch('{{ route("booked.times", $home->id) }}')
             .then(response => response.json())
             .then(data => {
-                let bookedDates = data.map(appointment => appointment.date);
-                let bookedTimes = data.map(appointment => appointment.time);
-                
-                // Disable already booked times
-                document.getElementById('appointmentDate').addEventListener('change', function() {
-                    if (bookedDates.includes(this.value)) {
-                        document.getElementById('appointmentTime').setAttribute('disabled', true);
-                        alert('This date is fully booked.');
+                let reservedDates = data.map(appointment => appointment.date);
+                let reservedTimes = data.reduce((acc, curr) => {
+                    acc[curr.date] = acc[curr.date] || [];
+                    acc[curr.date].push(curr.time);
+                    return acc;
+                }, {});
+
+                // Initialize Flatpickr to disable reserved dates
+                flatpickr(appointmentDateInput, {
+                    dateFormat: "Y-m-d",
+                    minDate: "today",  // Only allow future dates
+                    disable: reservedDates, // Disable reserved dates
+                    onChange: function(selectedDates, dateStr) {
+                        // Enable time input only if the selected date is not fully booked
+                        if (reservedDates.includes(dateStr)) {
+                            appointmentTimeInput.setAttribute('disabled', true);
+                            alert('This date is fully booked.');
+                        } else {
+                            appointmentTimeInput.removeAttribute('disabled');
+                        }
+                    }
+                });
+
+                // Disable reserved times based on selected date
+                appointmentDateInput.addEventListener('change', function() {
+                    let selectedDate = appointmentDateInput.value;
+
+                    if (reservedDates.includes(selectedDate)) {
+                        appointmentTimeInput.setAttribute('disabled', true);
                     } else {
-                        document.getElementById('appointmentTime').removeAttribute('disabled');
+                        appointmentTimeInput.removeAttribute('disabled');
                     }
                 });
             });
@@ -268,7 +307,6 @@
         });
     });
 </script>
-
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('lib1/wow/wow.min.js') }}"></script>
